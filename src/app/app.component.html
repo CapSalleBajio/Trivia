@@ -1,16 +1,59 @@
 <div class="l-container">
-   <div class="l-question">
-      <div class="l-text-title">
-         <h2> <b>(1/10) | Categoría </b> ¿Soy una pregunta?</h2>
-      </div> <!-- l-text-title -->
-      <div class="l-answers">
-          <div class="l-answer-option">Opción 1</div>
-          <div class="l-answer-option l-error">Opción 1</div>
-          <div class="l-answer-option l-correct">Opción 1</div>
-      </div>
-      <button class="l-button">Iniciar</button>
-   </div>
+
+<ng-container *ngIf="this.status === 'loading'">
+  <div class="l-question">
+    <div class="l-text-title">
+      <h2>Cargando...</h2>
+   </div> <!-- l-text-title -->
+  </div>
+</ng-container>
+
+<ng-container *ngIf="this.status === 'finished'">
+  <div class="l-question">
+    <div class="l-text-title">
+      <h2>Tienes un puntaje de {{this.correctAnswers}}/10</h2>
+   </div> <!-- l-text-title -->
+  <button class="l-button"
+  (click)="this.start()">Volver a jugar</button>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="this.status === 'waiting'">
+  <div class="l-question">
+    <div class="l-text-title">
+      <h2>Trivia</h2>
+   </div> <!-- l-text-title -->
+  <button class="l-button"
+  (click)="this.start()">Iniciar</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="this.status === 'playing'">
+  <div class="l-question">
+    <div class="l-text-title">
+       <h2>
+        <b>({{ this.questionIndex + 1 }}/{{ this.questions.length }}) | {{ this.currentQuestion.category }} </b> {{ this.currentQuestion.question }}</h2>
+    </div> <!-- l-text-title -->
+    <div class="l-answers">
+        <div
+        class="l-answer-option"
+        [class.l-correct]="this.showOptionResult
+        && this.currentQuestion.correctAnswerIndex === i"
+        [class.l-error]="this.showOptionResult
+        && this.currentQuestion.correctAnswerIndex !== i"
+        *ngFor="let option of this.currentQuestion.options; let i = index"
+        (click)="this.nextQuestion(i)"
+        >{{ option }}</div>
+    </div>
+ </div>
+</ng-container>
+
+
+
+
 </div>
+
 
 
 
